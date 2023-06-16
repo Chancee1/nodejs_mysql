@@ -8,7 +8,6 @@ let router = express.Router();
  * @swagger
  * /user/register:
  *  post:
- *      
  *      summary: Register User
  *      description: Register User
  *      parameters:
@@ -40,10 +39,40 @@ let router = express.Router();
  *      responses: 
  *          200:
  *              description: Returns message indicating success
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          ref: '#/components/schemas/User'
  *          400:
  *              description: Returns message indicating failure
  */
 router.post("/register", validateUserRegister, registerNewUser)
+
+/**
+ * @swagger
+ * /user/login
+ *  tags:
+ *    - User
+ *  post:
+ *      summary: Signs in user
+ *      description: Signs in user
+ *      parameters:
+ *          - name: email
+ *            in: formData
+ *            type: string
+ *            required: true
+ *          - name: password
+ *            in: formData
+ *            type: string
+ *            required: true
+ *      responses:
+ *          200:
+ *            description: Login successful
+ *            content:
+ *              application/json:
+ *                  schema:
+ *                     ref: '#/components/schemas/User'
+ */
 router.post("/login", validateLogin, login)
 router.get("/all", checkAuthorization,getAllUsers)
 router.get("/profile", checkAuthorization, getUserInfo)

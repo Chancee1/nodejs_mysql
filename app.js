@@ -10,13 +10,15 @@ import "./utils/db_connection.js"
 import { corsFunction } from './utils/cors.js';
 import bodyParser from 'body-parser'
 import swaggerUi from "swagger-ui-express";
-import {swaggerJsDoc} from './utils/swagger.js'
 config({ path: "./.env" });
 const PORT = process.env.PORT;
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const swaggerJson = require("./swagger.json");
 
 app.use(cors());
 app.use(morgan('dev'));
-app.use("/documentation", swaggerUi.serve, swaggerUi.setup(swaggerJsDoc))
+app.use("/documentation", swaggerUi.serve, swaggerUi.setup(swaggerJson))
 app.use(bodyParser.urlencoded({extended: true}))
 router.options("/", cors());
 router.use((req, res, next)=>{

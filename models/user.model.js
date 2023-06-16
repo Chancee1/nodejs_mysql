@@ -36,5 +36,15 @@ userSchema.methods.generateAuthToken = function(){
     return "Bearer "+ token;
 }
 
-
 export const User = model('User', userSchema)
+
+/**
+* @swagger
+* components:
+*   schemas:
+*     User:
+*       type: object
+*       properties:
+*         firstname:
+*             type: string
+*/

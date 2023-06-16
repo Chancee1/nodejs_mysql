@@ -45,13 +45,13 @@ export const validateLogin = (req, res, next) =>{
 
     const {error} = loginValidator.validate(body)
     if(error){
-        res.status(400).json({
+        return res.status(400).json({
             error: error.message,
             message: "Login Failed"
         })
     }
     } catch (error) {
-        res.status(400).json({
+        return res.status(400).json({
             error: error
         })
     }

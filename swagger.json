@@ -1,0 +1,133 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "\n\nMade with ❤️ by Ineza Jost Chance",
+        "title": "Nodejs Backend NE",
+        "termsOfService": "http://swagger.io/terms/",
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        } ,
+        "version": "1.0.1"
+    },
+    "tags": [
+        {
+            "name": "User"
+        }
+    ],
+    "definitions":{
+        "User":{
+            "type": "object",
+            "properties": {
+                "firstname": {
+                    "type": "string"
+                },
+                "lastname":{
+                    "type":"string"
+                },
+                "email":{
+                    "type":"string"
+                },
+                "password":{
+                    "type":"string"
+                }
+            }
+        }
+    },
+    "paths": {
+        "/users/register": {
+            "post":{
+                "tags": ["User"],
+                "summary": "Register User",
+                "description": "Register new User",
+                "parameters": [
+                    {
+                        "name": "firstname",
+                        "in": "body",
+                        "description": "User's firstname",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "lastname",
+                        "in": "body",
+                        "description": "User's lastname",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "email",
+                        "in": "body",
+                        "description": "User's email",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "body",
+                        "description": "User's password",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200" :{
+                        "description": "Successfully registered a user",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "400":{
+                        "description": "Registration failed"
+                    }
+                }
+            }
+        },
+        "/users/login":{
+            "post": {
+                "tags": ["User"],
+                "summary": "Login Users",
+                "description": "Login new Users",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "body",
+                        "description": "User's email",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "body",
+                        "description": "User's password",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "Successfully Logged in",
+                        "schema":{
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "400":{
+                        "description": "Log in failed"
+                    }
+                }
+            }
+        }
+    }
+}

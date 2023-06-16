@@ -1,6 +1,6 @@
 import swaggerJSDoc from "swagger-jsdoc";
 const options = {
-    openapi: "3.0.0",
+    swagger: '2.0',
     definition: {
       components: {},
       info: {
