@@ -15,6 +15,18 @@
             "name": "User"
         }
     ],
+    "security":[
+        {
+            "Bearer":[]
+        }
+    ],
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    },
     "definitions":{
         "User":{
             "type": "object",
@@ -35,7 +47,7 @@
         }
     },
     "paths": {
-        "/users/register": {
+        "/user/register": {
             "post":{
                 "tags": ["User"],
                 "summary": "Register User",
@@ -43,39 +55,31 @@
                 "parameters": [
                     {
                         "name": "firstname",
-                        "in": "body",
+                        "in": "formData",
+                        "type": "string",
                         "description": "User's firstname",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
+                        "required": true
                     },
                     {
                         "name": "lastname",
-                        "in": "body",
+                        "in": "formData",
+                        "type": "string",
                         "description": "User's lastname",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
+                        "required": true
                     },
                     {
                         "name": "email",
-                        "in": "body",
+                        "in": "formData",
+                        "type": "string",
                         "description": "User's email",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
+                        "required": true
                     },
                     {
                         "name": "password",
-                        "in": "body",
+                        "in": "formData",
+                        "type": "string",
                         "description": "User's password",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -91,7 +95,7 @@
                 }
             }
         },
-        "/users/login":{
+        "/user/login":{
             "post": {
                 "tags": ["User"],
                 "summary": "Login Users",
@@ -99,21 +103,17 @@
                 "parameters": [
                     {
                         "name": "email",
-                        "in": "body",
+                        "in": "formData",
+                        "type": "string",
                         "description": "User's email",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
+                        "required": true
                     },
                     {
                         "name": "password",
-                        "in": "body",
+                        "in": "formData",
+                        "type": "string",
                         "description": "User's password",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -126,6 +126,40 @@
                     "400":{
                         "description": "Log in failed"
                     }
+                }
+            }
+        },
+        "/user/all":{
+            "get": {
+                "tags": ["User"],
+                "description": "Returns all Users",
+                "responses": {
+                    "200":{
+                        "description": "Returned all users ",
+                        "schema":{
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "400":{
+                        "description": "Failed to return registered users"
+                    } 
+                }
+            }
+        },
+        "/user/profile":{
+            "get": {
+                "tags": ["User"],
+                "description": "Returns the logged in user",
+                "responses": {
+                    "200":{
+                        "description": "Returned the logged in user",
+                        "schema":{
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "400":{
+                        "description": "Failed to return logged in user"
+                    } 
                 }
             }
         }

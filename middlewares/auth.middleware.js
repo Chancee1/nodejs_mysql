@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 const { verify } = jwt;
 export const checkAuthorization = (req, res, next) =>{
-    const token = req.header("Authorization").trim();
+    const token = req.header("Authorization");
     if(!token) return res.status(400).json({message: "You must log in first"})
     try {
         const tokenArray = token.split(" ");

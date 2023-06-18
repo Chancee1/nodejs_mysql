@@ -6,6 +6,7 @@ import cors from 'cors'
 import morgan from 'morgan'
 import { config } from "dotenv";
 import userRoutes from "./routes/user.route.js"
+import productRoutes from "./routes/product.route.js"
 import "./utils/db_connection.js"
 import { corsFunction } from './utils/cors.js';
 import bodyParser from 'body-parser'
@@ -29,13 +30,9 @@ router.use((req, res, next)=>{
 app.use(corsFunction)
 app.use(bodyParser.json())
 
-app.get("/", (req, res)=>{
-    return res.status(200).json({
-        message: "This is the home page"
-    })
-})
 // routes
 app.use("/user",userRoutes)
+app.use("/product", productRoutes)
 
 app.listen(process.env.PORT || 3000, ()=>{
     console.log(`Server is listening on port ${PORT}`)

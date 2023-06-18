@@ -37,14 +37,3 @@ userSchema.methods.generateAuthToken = function(){
 }
 
 export const User = model('User', userSchema)
-
-/**
-* @swagger
-* components:
-*   schemas:
-*     User:
-*       type: object
-*       properties:
-*         firstname:
-*             type: string
-*/

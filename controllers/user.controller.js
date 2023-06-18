@@ -14,13 +14,13 @@ export const registerNewUser = async(req, res) =>{
     newUser.password = await hash(newUser.password, salt)
     await newUser.save();
 
-    res.status(200).json({
+    return res.status(200).json({
         message: "User Registered Successfully",
         id: newUser._id,
         data: newUser
     })
     } catch (error) {
-        res.status(400).json({
+       return res.status(400).json({
             message: error.message,
             error: error
         })
@@ -40,13 +40,13 @@ export const login = async(req, res) =>{
         if(!comparePass) return res.status(400).json({message: "Invalid Email or Password"})
 
         const token = user.generateAuthToken();
-        res.header("Authorization", token).status(200).json({
+        return res.header("Authorization", token).status(200).json({
             message: "Logged in Successfully",
             token, 
             data: user
         })
     } catch (error) {
-        res.status(400).json({
+       return res.status(400).json({
             message: error.message,
             error: error
         })
@@ -61,7 +61,7 @@ export const getAllUsers = async(req, res) =>{
         data: allUsers
     })
   } catch (error) {
-    res.status(400).json({
+    return res.status(400).json({
         message: error.message,
         error: error
     })
@@ -71,7 +71,7 @@ export const getAllUsers = async(req, res) =>{
 export const getUserInfo = async(req, res) =>{
     const user = await User.findById(req.user._id);
     if(!user) return res.status(400).json({message: "User not found!"})
-    res.status(200).json({
+    return res.status(200).json({
         message: "Returned Logged in User",
         data: user
     })
@@ -96,7 +96,7 @@ export const updateUserInfo = async(req, res)=>{
         data: user,
       });
     } catch (error) {
-        res.status(400).send({
+       return res.status(400).send({
             message: error.message,
             error: error,
           });
