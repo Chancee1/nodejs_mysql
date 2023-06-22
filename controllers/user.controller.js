@@ -1,18 +1,24 @@
 import { compare, genSalt, hash } from "bcrypt"
 import lodash from "lodash"
-import { User } from "../models/user.model.js";
 const {pick} = lodash;
+import pkg from 'jsonwebtoken'
+const {sign} = pkg;
+
+import db from "../utils/db_connection.js"
+
+const {models} = db;
+const {User} = models;
 
 export const registerNewUser = async(req, res) =>{
     console.log("We are Hereee")
     try {
-        let newUser = new User(pick(req.body, ["firstname", "lastname", "email", "type", "password"]))
+        let newUser = {firstname: req.body.firstname, lastname: req.body.lastname, email: req.body.email, password: req.body.password}
 
     const salt = await genSalt(10);
     console.log("salt", salt)
     console.log("pass", newUser.password)
     newUser.password = await hash(newUser.password, salt)
-    await newUser.save();
+    await User.create(newUser);
 
     return res.status(200).json({
         message: "User Registered Successfully",
@@ -30,7 +36,7 @@ export const registerNewUser = async(req, res) =>{
 export const login = async(req, res) =>{
     try {
         let {body} = req;
-        let user = await User.findOne({email: body.email});
+        let user = await User.findOne({where: {email: body.email}});
         if (!user){
             res.status(400).json({
                 message: "Invalid Email or Password"
@@ -39,7 +45,7 @@ export const login = async(req, res) =>{
         let comparePass = await compare(body.password, user.password)
         if(!comparePass) return res.status(400).json({message: "Invalid Email or Password"})
 
-        const token = user.generateAuthToken();
+        const token = generateToken(user.id, user.email);
         return res.header("Authorization", token).status(200).json({
             message: "Logged in Successfully",
             token, 
@@ -55,7 +61,7 @@ export const login = async(req, res) =>{
 
 export const getAllUsers = async(req, res) =>{
   try {
-    const allUsers = await User.find();
+    const allUsers = await User.findAll();
     return res.status(200).json({
         message: "Returned All Users",
         data: allUsers
@@ -69,7 +75,7 @@ export const getAllUsers = async(req, res) =>{
 }
 
 export const getUserInfo = async(req, res) =>{
-    const user = await User.findById(req.user._id);
+    const user = await User.findOne({where: {id: req.user._id}});
     if(!user) return res.status(400).json({message: "User not found!"})
     return res.status(200).json({
         message: "Returned Logged in User",
@@ -101,4 +107,10 @@ export const updateUserInfo = async(req, res)=>{
             error: error,
           });
     }
+}
+
+const generateToken = (id, email) =>{
+    const token = sign({_id: id, email: email},
+                process.env.JWT_SECRET.trim(), {expiresIn: '1h'})
+    return "Bearer "+ token;
 }

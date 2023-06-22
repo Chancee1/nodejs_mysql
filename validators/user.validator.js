@@ -1,5 +1,4 @@
 import Joi from "joi"
-import { User } from "../models/user.model.js";
 
 export const validateUserRegister = async(req, res, next) =>{
     try {
@@ -9,7 +8,7 @@ export const validateUserRegister = async(req, res, next) =>{
         lastname: Joi.string().required(),
         password: Joi.string().min(3).required(),
         email: Joi.string().email().required(),
-        type: Joi.string().valid('user', 'admin').required()
+        confirmPassword: Joi.any().valid(Joi.ref('password')).required()
     })
 
     const {error} = userValidator.validate(body);
@@ -19,12 +18,12 @@ export const validateUserRegister = async(req, res, next) =>{
             message: "Unable to create account"
         })
     }
-    let emailExists = await User.findOne({email: body.email})
-    if(emailExists){
-       return res.status(401).json({
-            message: "Email Already Exists"
-        })
-    }
+    // let emailExists = await User.findOne({email: body.email})
+    // if(emailExists){
+    //    return res.status(401).json({
+    //         message: "Email Already Exists"
+    //     })
+    // }
 
     return next();
     } catch (error) {

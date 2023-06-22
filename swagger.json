@@ -13,7 +13,7 @@
     "tags": [
         {
             "name": "User"
-        }
+        }, {"name": "Employee"}
     ],
     "security":[
         {
@@ -42,6 +42,41 @@
                 },
                 "password":{
                     "type":"string"
+                }
+            }
+        },
+        "Employee":{
+            "type": "object",
+            "properties": {
+                "firstname": {
+                    "type": "string"
+                },
+                "lastname":{
+                    "type":"string"
+                },
+                "email":{
+                    "type":"string"
+                },
+                "natioinalId": {
+                    "type": "string"
+                },
+                "phone":{
+                    "type":"string"
+                },
+                "department":{
+                    "type":"string"
+                },
+                "position": {
+                    "type": "string"
+                },
+                "manufacturer":{
+                    "type":"string"
+                },
+                "model":{
+                    "type":"string"
+                },
+                "serialNumber": {
+                    "type": "string"
                 }
             }
         }
@@ -162,6 +197,112 @@
                     } 
                 }
             }
+        },
+        "/employee":{
+            "post": {
+                "tags": ["Employee"],
+                "summary": "Register Employee",
+                "description": "Register new Employee",
+                "parameters": [
+                    {
+                        "name": "firstname",
+                        "in": "formData",
+                        "type": "string",
+                        "description": "Firstname",
+                        "required": true
+                    },
+                    {
+                        "name": "lastname",
+                        "in": "formData",
+                        "type": "string",
+                        "description": "Lastname",
+                        "required": true
+                    },
+                    {
+                        "name": "email",
+                        "in": "formData",
+                        "type": "string",
+                        "description": "Email",
+                        "required": true
+                    },
+                    {
+                        "name": "nationalId",
+                        "in": "formData",
+                        "type": "string",
+                        "description": "National Identification",
+                        "required": true
+                    },
+                    {
+                        "name": "phone",
+                        "in": "formData",
+                        "type": "string",
+                        "description": "Telephone",
+                        "required": true
+                    },
+                    {
+                        "name": "department",
+                        "in": "formData",
+                        "type": "string",
+                        "description": "Department",
+                        "required": true
+                    },
+                    {
+                        "name": "position",
+                        "in": "formData",
+                        "type": "string",
+                        "description": "Position",
+                        "required": true
+                    },
+                    {
+                        "name": "manufacturer",
+                        "in": "formData",
+                        "type": "string",
+                        "description": "Laptop Manufacturer",
+                        "required": true
+                    },
+                    {
+                        "name": "model",
+                        "in": "formData",
+                        "type": "string",
+                        "description": "Model",
+                        "required": true
+                    },
+                    {
+                        "name": "serialNumber",
+                        "in": "formData",
+                        "type": "string",
+                        "description": "Serial Number",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200" :{
+                        "description": "Successfully registered employee",
+                        "schema": {
+                            "$ref": "#/definitions/Employee"
+                        }
+                    },
+                    "400":{
+                        "description": "Registration failed"
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Employee"],
+                "description": "Returns All Employees",
+                "summary": "Returns All Employees",
+                "responses": {
+                    "200":{
+                        "description": "Returns all registered employees",
+                        "schema":{
+                            "$ref": "#/definitions/Employee"
+                        }
+                    },
+                    "400":{
+                        "description": "Failed to return all employees"
+                    } 
+                }
+            }
         }
-    }
+        }
 }
